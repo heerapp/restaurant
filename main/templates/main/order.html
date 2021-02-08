@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+{% extends "base.html" %}
+{% block content %}
+
+<table align="center" id="table" class="table table-sm" style="max-width: 600px;max-height: 400px;">
+		<thead class="thead-dark">
+			<tr>
+			<th>Name</th>
+			<th>table</th>
+			<th> unit Price</th>
+			<th>quantity</th>
+			<th>price</th>
+			</tr>
+		</thead>
+		<tbody>
+        {% for order in order %}
+			<tr class="table-active">
+			<td>{{order.item.name}}</td>
+			<td>{{order.table}}</td>
+			<td>{{order.item.price}}</td>
+			<td>{{order.quantity}}</td>
+            <td class="price">{{order.price}}</td>
+			</tr>
+		{% endfor %}
+			<tr class="table-success">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>Total</td>
+            <td class="total"></td>
+			</tr>
+		</tbody>
+</table>
+	<script type="text/javascript">
+		var total = 0;
+		$("#table tr td.price").each(function(){
+			total += parseInt($(this).text());
+		});
+		$("#table tr td.total").text(total);
+	</script>
+{% endblock %}
+</body>
+</html>

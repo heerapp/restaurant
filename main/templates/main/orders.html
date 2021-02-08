@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+{% extends 'base.html' %}
+{% block content %}
+
+<br>
+<form method="post" action="{% url 'orders' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+        <div id="form" class="jumbotron" style="padding:30px;">
+            {{form}}
+        </div>
+    <div class="footer" style="float:right;">
+        <button type="submit" class="btn btn-success">confirm</button>
+    </div>
+</form>
+
+<script>
+    $('#add').click(function() {
+        $('#forms').load('form');
+
+    });
+</script>
+
+{% endblock %}
+
+</body>
+</html>
