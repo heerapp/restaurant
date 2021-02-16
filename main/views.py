@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from main.models import Category, Item, Order
+from main.models import Category, Item, Order, Table
 from .forms import *
+from django.forms import formset_factory
 
 
 def index(request):
@@ -25,20 +26,49 @@ def order(request):
     return render(request, "main/order.html", {'order': order})
 
 
-def orders(request):
-    form = OrderForm(request.POST or None)
+def orders(request, pk):
+    # table = TableForm(request.POST or None)
+    table = Table.objects.filter(id=pk).first()
+    orderformset = formset_factory(OrderForm)
+    formset = orderformset(request.POST or None)
+    if formset.is_valid():
+        # Save table form and get table ID
+        # a = table.save(commit=False)
+        # a.save()
 
-    if form.is_valid():
-        orders = form.save(commit=False)
-        orders.save()
-        return redirect('/')
+        for form in formset:
+            order = form.save(commit=False)
+            order.table = table
+            order.save()
+        return redirect('/order')
 
-    return render(request, 'main/orders.html', {'form': form})
+    return render(request, 'main/orders.html', {'formset': formset, 'table': table})
 
 
 def allorders(request):
-    order = Order.objects.all()
-    return render(request, 'main/allorder.html', {'order': order})
+    high = Order.objects.all().filter(item__time__range=(0, 4))
+    medium = Order.objects.all().filter(item__time__range=(5, 8))
+    low = Order.objects.all().filter(item__time__range=(9, 13))
+
+    context = {
+        'high': high,
+        'medium': medium,
+        'low': low,
+    }
+    return render(request, 'main/allorder.html', context)
 
 
+def tables(request):
+    tables = Table.objects.all()
+    return render(request, 'main/tables.html', {'tables': tables})
 
+
+def prepare(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+
+    if request.method == 'POST':
+        order.status = "preparing..."
+        order.save()
+        return redirect('/allorders')
+
+    return render(request, 'main/prepare.html', {'order': order})

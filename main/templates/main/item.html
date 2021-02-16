@@ -6,26 +6,26 @@
 <body>
 {% extends "base.html" %}
 {% block content %}
-      <div class="container">
-          <div class="row">
-          {% for item in item %}
+<div class="container">
+    <div class="row">
+        {% for item in item %}
 
-  <div class="col-sm-4">
-    <div class="card" style="width: 18rem;">
-      <img id="image" src="{{item.image.url}}">
-        <hr>
-      <div class="card-body">
-          <h3 class="card-title">{{item.name}}</h3>
-        <h5>price: Rs {{item.price}}</h5>
-      </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="card bg-light"
+                 style="width: 18rem; margin:20px; box-shadow: 0 3px 3px rgba(0,0,0,0.01), 0 2px 2px rgba(0,0,0,0.24);">
+                <img id="image" src="{{item.image.url}}" style="margin-bottom:-16px;">
+                <hr>
+                <div class="card-body">
+                    <h4 class="card-title">{{item.name}}</h4>
+                    <h5>Price: Rs {{item.price}}</h5>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
     </div>
-  </div>
-
-    {% endfor %}
-      </div>
-      </div>
+</div>
 {% endblock %}
-{{total}}
 
 </body>
 </html>

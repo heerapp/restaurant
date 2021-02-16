@@ -8,21 +8,39 @@
 {% block content %}
 
 <br>
-<form method="post" action="{% url 'orders' %}" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-        <div id="form" class="jumbotron" style="padding:30px;">
-            {{form}}
-        </div>
+    {{ formset.management_form}}
+    <div id="form_set" class="jumbotron" style="padding:30px;">
+    <b>Table: {{table}} </b>
+        <hr>
+    {% for form in formset.forms %}
+    <table class="no_error">
+    {{form}}
+    </table>
+    <hr>
+
+    {% endfor %}
+    </div>
+
+    <input type="button" value="Add More" id="add_more">
+    <div id="empty_form" style="display:none">
+        <table class="no_error">
+            {{formset.empty_form}}
+            <hr>
+        </table>
+    </div>
     <div class="footer" style="float:right;">
         <button type="submit" class="btn btn-success">confirm</button>
     </div>
 </form>
 
 <script>
-    $('#add').click(function() {
-        $('#forms').load('form');
-
-    });
+     $('#add_more').click(function() {
+        var form_idx = $('#id_form-TOTAL_FORMS').val();
+	$('#form_set').append($('#empty_form').html().replace  (/__prefix__/g, form_idx));
+	$('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+});
 </script>
 
 {% endblock %}

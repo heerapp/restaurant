@@ -6,25 +6,82 @@
 <body>
 {% extends "base.html" %}
 {% block content %}
+<div class="row">
+    <div class="col-sm-4">
+        <table align="center" class="table table-sm" style="max-width: 600px;max-height: 400px;">
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>quantity</th>
+                <th>table</th>
+                <th>status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for high in high %}
+            <tr class="table-success">
+                <td>{{high.item.name}}</td>
+                <td>{{high.quantity}}</td>
+                <td>{{high.table}}</td>
+                <td>
+                    <button class="btn btn-danger">{{high.status}}</button>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-<table align="center" id="table" class="table table-sm" style="max-width: 600px;max-height: 400px;">
-		<thead class="thead-dark">
-			<tr>
-			<th>Name</th>
-			<th>quantity</th>
-			<th>table</th>
-			</tr>
-		</thead>
-		<tbody>
-        {% for order in order %}
-			<tr class="table-active">
-			<td>{{order.item.name}}</td>
-			<td>{{order.quantity}}</td>
-			<td>{{order.table}}</td>
-			</tr>
-		{% endfor %}
-        </tbody>
-</table>
+    <div class="col-sm-4">
+        <table align="center" class="table table-sm" style="max-width: 600px;max-height: 400px;">
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>quantity</th>
+                <th>table</th>
+                <th>status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for medium in medium %}
+            <tr class="table-warning">
+                <td>{{medium.item.name}}</td>
+                <td>{{medium.quantity}}</td>
+                <td>{{medium.table}}</td>
+                <td>
+                    <button class="btn btn-danger">{{medium.status}}</button>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-sm-4">
+        <table align="center" class="table table-sm" style="max-width: 600px;max-height: 400px;">
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>quantity</th>
+                <th>table</th>
+                <th>status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for low in low %}
+            <tr class="table-danger">
+                <td>{{low.item.name}}</td>
+                <td>{{low.quantity}}</td>
+                <td>{{low.table}}</td>
+                <td><a type="button" class="btn btn-danger" href="/prepare/{{low.id}}">{{low.status}}</a></td>
+                </form>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 {% endblock %}
 
 </body>

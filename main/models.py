@@ -30,7 +30,8 @@ class Table(models.Model):
 class Order(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=1)
+    status = models.CharField(max_length=100, default="pending...", blank=True)
 
     def __str__(self):
         return f"{self.item}"
@@ -39,7 +40,6 @@ class Order(models.Model):
     def price(self):
         price = self.item.price*self.quantity
         return price
-
 
 
 
