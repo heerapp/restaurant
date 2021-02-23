@@ -6,15 +6,17 @@
 <body>
 {% extends "base.html" %}
 {% block content %}
-<h1>order:offline</h1>
-<div class="row">
-    <div class="col-lg-4 col-md-4">
+<h1>order:online</h1>
+<div class="row col-lg-3 col-md-3">
+    <div>
         <table align="center" class="table table-sm" style="max-width: 600px;max-height: 400px;">
             <thead class="thead-dark">
             <tr>
                 <th>Name</th>
                 <th>quantity</th>
-                <th>table</th>
+                <th>user</th>
+                <th>contact</th>
+                <th>address</th>
                 <th>status</th>
             </tr>
             </thead>
@@ -23,21 +25,25 @@
             <tr class="table-success">
                 <td>{{high.item.name}}</td>
                 <td>{{high.quantity}}</td>
-                <td>{{high.table}}</td>
-                <td><a type="button" class="btn btn-danger" href="/prepare/{{high.id}}">{{high.status}}</a></td>
+                <td>{{high.user}}</td>
+                <td>{{high.contact}}</td>
+                <td>{{high.address}}</td>
+                <td><a type="button" class="btn btn-danger" href="/on_prepare/{{high.id}}">{{high.status}}</a></td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
 
-    <div class="col-lg-4 col-md-4">
+    <div>
         <table align="center" class="table table-sm" style="max-width: 600px;max-height: 400px;">
             <thead class="thead-dark">
             <tr>
                 <th>Name</th>
                 <th>quantity</th>
-                <th>table</th>
+                <th>user</th>
+                <th>contact</th>
+                <th>address</th>
                 <th>status</th>
             </tr>
             </thead>
@@ -46,21 +52,25 @@
             <tr class="table-warning">
                 <td>{{medium.item.name}}</td>
                 <td>{{medium.quantity}}</td>
-                <td>{{medium.table}}</td>
-                <td><a type="button" class="btn btn-danger" href="/prepare/{{medium.id}}">{{medium.status}}</a></td>
+                <td>{{medium.user}}</td>
+                <td>{{medium.contact}}</td>
+                <td>{{medium.address}}</td>
+                <td><a type="button" class="btn btn-danger" href="/on_prepare/{{medium.id}}">{{medium.status}}</a></td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
 
-    <div class="col-lg-4 col-md-4">
+    <div>
         <table align="center" class="table table-sm" style="max-width: 600px;max-height: 400px;">
             <thead class="thead-dark">
             <tr>
                 <th>Name</th>
                 <th>quantity</th>
-                <th>table</th>
+                <th>user</th>
+                <th>contact</th>
+                <th>address</th>
                 <th>status</th>
             </tr>
             </thead>
@@ -69,15 +79,17 @@
             <tr class="table-danger">
                 <td>{{low.item.name}}</td>
                 <td>{{low.quantity}}</td>
-                <td>{{low.table}}</td>
-                <td><a type="button" class="btn btn-danger" href="/prepare/{{low.id}}">{{low.status}}</a></td>
+                <td>{{low.user}}</td>
+                <td>{{low.contact}}</td>
+                <td>{{low.address}}</td>
+                <td><a type="button" class="btn btn-danger" href="/on_prepare/{{low.id}}">{{low.status}}</a></td>
+                </form>
             </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-
 {% endblock %}
 
 </body>

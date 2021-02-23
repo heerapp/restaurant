@@ -27,7 +27,12 @@ def login(request):
         user = auth.authenticate(username=request.POST['username'], password=request.POST['password'])
         if user is not None:
             auth.login(request, user)
-            return redirect('/')
+            if request.user.is_superuser:
+                return redirect('/allorders/')
+            elif request.user.is_staff:
+                return redirect('/tables/')
+            else:
+                return redirect('/')
         else:
             return render(request, 'account/login.html', {'error': 'username or password is incorrect.'})
 

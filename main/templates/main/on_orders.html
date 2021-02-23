@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+{% extends 'base.html' %}
+{% block content %}
+
+<br>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ formset.management_form}}
+    <div id="form_set" class="jumbotron" style="padding:30px;">
+    {% for form in formset.forms %}
+    <table class="no_error">
+    {{form}}
+    </table>
+    <hr>
+
+    {% endfor %}
+    </div>
+
+    <input type="button" value="Add More" id="add_more">
+    <div id="empty_form" style="display:none">
+        <table class="no_error">
+            {{formset.empty_form}}
+            <hr>
+        </table>
+    </div>
+    <div class="footer" style="float:right;">
+        <button type="submit" class="btn btn-success">confirm</button>
+    </div>
+</form>
+
+<script>
+     $('#add_more').click(function() {
+        var form_idx = $('#id_form-TOTAL_FORMS').val();
+	$('#form_set').append($('#empty_form').html().replace  (/__prefix__/g, form_idx));
+	$('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+});
+</script>
+
+{% endblock %}
+
+</body>
+</html>
