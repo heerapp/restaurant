@@ -11,4 +11,12 @@ class OrderForm(forms.ModelForm):
 class OnOrderForm(forms.ModelForm):
     class Meta:
         model = OnOrder
-        exclude = ('user', 'status', )
+        exclude = ('user', 'status', 'address', 'contact', )
+
+
+class DetailForm(forms.ModelForm):
+    class Meta:
+        model = OnOrder
+        fields = ('address', 'contact',)
+
+

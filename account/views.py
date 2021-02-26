@@ -30,7 +30,7 @@ def login(request):
             if request.user.is_superuser:
                 return redirect('/allorders/')
             elif request.user.is_staff:
-                return redirect('/tables/')
+                return redirect('/order/')
             else:
                 return redirect('/')
         else:

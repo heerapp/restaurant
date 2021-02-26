@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -46,8 +47,8 @@ class OnOrder(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    address = models.CharField(max_length=100)
     contact = models.CharField(max_length=50)
-    address = models.CharField(max_length=200)
     status = models.CharField(max_length=100, default="pending...", blank=True)
 
     def __str__(self):
@@ -57,6 +58,4 @@ class OnOrder(models.Model):
     def price(self):
         price = self.item.price*self.quantity
         return price
-
-
 

@@ -7,44 +7,195 @@
 {% extends "base.html" %}
 {% block content %}
 
-<table align="center" id="table" class="table table-sm" style="max-width: 600px;max-height: 400px;">
-		<thead class="thead-dark">
-			<tr>
-			<th>Name</th>
-			<th>table</th>
-			<th> unit Price</th>
-			<th>quantity</th>
-			<th>price</th>
-			<th>status</th>
-			</tr>
-		</thead>
-		<tbody>
-        {% for order in order %}
-			<tr class="table-active">
-			<td>{{order.item.name}}</td>
-			<td>{{order.table}}</td>
-			<td>{{order.item.price}}</td>
-			<td>{{order.quantity}}</td>
-            <td class="price">{{order.price}}</td>
-			<td style="color:red;">{{order.status}}</td>
-			</tr>
-		{% endfor %}
-			<tr class="table-success">
-			<td></td>
-			<td></td>
-			<td></td>
-			<td>Total</td>
-            <td class="total"></td>
-			</tr>
-		</tbody>
+<table align="center" id="table1" class="table table-sm" style="max-width: 600px;max-height: 400px;">
+    <thead class="thead-dark">
+    <tr>
+        <th>Name</th>
+        <th>table</th>
+        <th> unit Price</th>
+        <th>quantity</th>
+        <th>price</th>
+        <th>status</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in order1 %}
+    <tr class="table-active">
+        <td>{{order.item.name}}</td>
+        <td>{{order.table}}</td>
+        <td>{{order.item.price}}</td>
+        <td>{{order.quantity}}</td>
+        <td class="price">{{order.price}}</td>
+        <td style="color:red;">{{order.status}}</td>
+    </tr>
+    {% endfor %}
+    <tr class="table-success">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Total</td>
+        <td class="total1"></td>
+    </tr>
+    </tbody>
 </table>
-	<script type="text/javascript">
+<table align="center" id="table2" class="table table-sm" style="max-width: 600px;max-height: 400px;">
+    <thead class="thead-dark">
+    <tr>
+        <th>Name</th>
+        <th>table</th>
+        <th> unit Price</th>
+        <th>quantity</th>
+        <th>price</th>
+        <th>status</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in order2 %}
+    <tr class="table-active">
+        <td>{{order.item.name}}</td>
+        <td>{{order.table}}</td>
+        <td>{{order.item.price}}</td>
+        <td>{{order.quantity}}</td>
+        <td class="price">{{order.price}}</td>
+        <td style="color:red;">{{order.status}}</td>
+    </tr>
+    {% endfor %}
+    <tr class="table-success">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Total</td>
+        <td class="total2"></td>
+    </tr>
+    </tbody>
+</table>
+<table align="center" id="table3" class="table table-sm" style="max-width: 600px;max-height: 400px;">
+    <thead class="thead-dark">
+    <tr>
+        <th>Name</th>
+        <th>table</th>
+        <th> unit Price</th>
+        <th>quantity</th>
+        <th>price</th>
+        <th>status</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in order3 %}
+    <tr class="table-active">
+        <td>{{order.item.name}}</td>
+        <td>{{order.table}}</td>
+        <td>{{order.item.price}}</td>
+        <td>{{order.quantity}}</td>
+        <td class="price">{{order.price}}</td>
+        <td style="color:red;">{{order.status}}</td>
+    </tr>
+    {% endfor %}
+    <tr class="table-success">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Total</td>
+        <td class="total3"></td>
+    </tr>
+    </tbody>
+</table>
+<table align="center" id="table4" class="table table-sm" style="max-width: 600px;max-height: 400px;">
+    <thead class="thead-dark">
+    <tr>
+        <th>Name</th>
+        <th>table</th>
+        <th> unit Price</th>
+        <th>quantity</th>
+        <th>price</th>
+        <th>status</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in order4 %}
+    <tr class="table-active">
+        <td>{{order.item.name}}</td>
+        <td>{{order.table}}</td>
+        <td>{{order.item.price}}</td>
+        <td>{{order.quantity}}</td>
+        <td class="price">{{order.price}}</td>
+        <td style="color:red;">{{order.status}}</td>
+    </tr>
+    {% endfor %}
+    <tr class="table-success">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Total</td>
+        <td class="total4"></td>
+    </tr>
+    </tbody>
+</table>
+<table align="center" id="table5" class="table table-sm" style="max-width: 600px;max-height: 400px;">
+    <thead class="thead-dark">
+    <tr>
+        <th>Name</th>
+        <th>table</th>
+        <th> unit Price</th>
+        <th>quantity</th>
+        <th>price</th>
+        <th>status</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in order5 %}
+    <tr class="table-active">
+        <td>{{order.item.name}}</td>
+        <td>{{order.table}}</td>
+        <td>{{order.item.price}}</td>
+        <td>{{order.quantity}}</td>
+        <td class="price">{{order.price}}</td>
+        <td style="color:red;">{{order.status}}</td>
+    </tr>
+    {% endfor %}
+    <tr class="table-success">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Total</td>
+        <td class="total5"></td>
+    </tr>
+    </tbody>
+</table>
+
+<script type="text/javascript">
 		var total = 0;
-		$("#table tr td.price").each(function(){
+		$("#table1 tr td.price").each(function(){
 			total += parseInt($(this).text());
 		});
-		$("#table tr td.total").text(total);
-	</script>
+		$("#table1 tr td.total1").text(total);
+
+        var total = 0;
+		$("#table2 tr td.price").each(function(){
+			total += parseInt($(this).text());
+		});
+		$("#table2 tr td.total2").text(total);
+
+        var total = 0;
+		$("#table3 tr td.price").each(function(){
+			total += parseInt($(this).text());
+		});
+		$("#table3 tr td.total3").text(total);
+
+        var total = 0;
+		$("#table4 tr td.price").each(function(){
+			total += parseInt($(this).text());
+		});
+		$("#table4 tr td.total4").text(total);
+
+        var total = 0;
+		$("#table5 tr td.price").each(function(){
+			total += parseInt($(this).text());
+		});
+		$("#table5 tr td.total5").text(total);
+
+
+</script>
 {% endblock %}
 </body>
 </html>

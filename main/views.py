@@ -24,8 +24,19 @@ def item(request, pk):
 
 @user_passes_test(lambda u: u.is_staff, login_url='login')
 def order(request):
-    order = Order.objects.all()
-    return render(request, "main/order.html", {'order': order})
+    order1 = Order.objects.all().filter(table__table="t1")
+    order2 = Order.objects.all().filter(table__table="t2")
+    order3 = Order.objects.all().filter(table__table="t3")
+    order4 = Order.objects.all().filter(table__table="t4")
+    order5 = Order.objects.all().filter(table__table="t5")
+    context = {
+        "order1": order1,
+        "order2": order2,
+        "order3": order3,
+        "order4": order4,
+        "order5": order5
+    }
+    return render(request, "main/order.html", context)
 
 
 @user_passes_test(lambda u: u.is_staff, login_url='login')
@@ -45,9 +56,9 @@ def orders(request, pk):
 
 @permission_required('is_superuser', raise_exception=True)
 def allorders(request):
-    high = Order.objects.all().filter(item__time__range=(0, 4))
-    medium = Order.objects.all().filter(item__time__range=(5, 8))
-    low = Order.objects.all().filter(item__time__range=(9, 13))
+    high = Order.objects.all().filter(item__time__range=(0, 4)).exclude(status="prepared")
+    medium = Order.objects.all().filter(item__time__range=(5, 8)).exclude(status="prepared")
+    low = Order.objects.all().filter(item__time__range=(9, 13)).exclude(status="prepared")
     q1 = queue.Queue()
     q1.put(high)
     q2 = queue.Queue()
@@ -113,14 +124,20 @@ def prepare(request, pk):
 def on_orders(request):
     orderformset = formset_factory(OnOrderForm)
     formset = orderformset(request.POST or None)
-    if formset.is_valid():
+    detail = DetailForm(request.POST or None)
+
+    if detail.is_valid() and formset.is_valid():
+        info = detail.save(commit=False)
+
         for form in formset:
             order = form.save(commit=False)
             order.user = request.user
+            order.address = info.address
+            order.contact = info.contact
             order.save()
         return redirect('/')
 
-    return render(request, 'main/on_orders.html', {'formset': formset})
+    return render(request, 'main/on_orders.html', {'formset': formset, 'detail': detail})
 
 
 @login_required(login_url='login')
@@ -142,4 +159,3 @@ def on_prepare(request, pk):
         return redirect('/on_allorders')
 
     return render(request, 'main/on_prepare.html', {'order': order})
-
