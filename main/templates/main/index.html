@@ -11,6 +11,9 @@ box-shadow: 0 3px 3px rgba(0,0,0,0.01), 0 2px 2px rgba(0,0,0,0.24);">
             <div class="card-body">
                 <h4 class="card-title" style="text-transform:capitalize;">{{item.name}}</h4>
                 <h5>Price: Rs {{item.price}}</h5>
+                {% if not user.is_staff and not user.is_superuser %}
+                <a href="{% url 'main:add-to-cart' item.pk %}" class="btn btn-success btn-md my-0 p">Add to cart</a>
+                {% endif %}
             </div>
         </div>
     </div>

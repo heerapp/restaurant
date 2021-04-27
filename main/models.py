@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 
 class Category(models.Model):
@@ -58,4 +59,26 @@ class OnOrder(models.Model):
     def price(self):
         price = self.item.price*self.quantity
         return price
+
+
+class CartItems(models.Model):
+    ORDER_STATUS = (
+        ('Active', 'Active'),
+        ('Delivered', 'Delivered')
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    ordered = models.BooleanField(default=False)
+    quantity = models.IntegerField(default=1)
+    ordered_date = models.DateField(default=timezone.now)
+    status = models.CharField(max_length=20, choices=ORDER_STATUS, default='Active')
+    delivery_date = models.DateField(default=timezone.now)
+
+    class Meta:
+        verbose_name = 'Cart Item'
+        verbose_name_plural = 'Cart Items'
+
+    def __str__(self):
+        return self.item.name
+
 
