@@ -21,21 +21,75 @@
         </style>
         <h1>Result</h1>
         <h2>Scheduled Tasks</h2>
-
-        <div class="items-list">
-            {% if result_list %}
-                 {% for each in result_list %}
-                    <div class="item-card">
-                        <div>{{each.name}}</div>
-                        <div>Start Time: {{each.arrive_time}}</div>
-                        <div>Serve Time: {{each.serve_time}}</div>
-                        <div>Finish Time: {{each.finish_time}}</div>
-                        <div>Turnaround Time: {{each.cycling_time}}</div>
-                        <div>Turnaround Time With Rights: {{each.w_cycling_time}}</div>
-                    </div>
-                {% endfor %}
+        <div class="row">
+                <div class="col-lg-4 col-md-4">
+        <table align="center" class="table table-xsm" >
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>quantity</th>
+                <th>table</th>
+                <th>status</th>
+                <th>start time</th>
+                <th>serve time</th>
+                <th>finish time</th>
+                <th>turnaround time</th>
+                <th>turnaround time with rights</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for each in result_list %}
+            {% if each.serve_time < 5 %}
+            <tr class="table-success">
+                <td>{{each.name}}</td>
+                <td>{{each.quantity}}</td>
+                <td>{{each.table}}</td>
+                <td><a type="button" class="btn btn-danger" href="/prepare/{{each.id}}">{{each.status}}</a></td>
+                <td>{{each.arrive_time}}</td>
+                <td>{{each.serve_time}}</td>
+                <td>{{each.finish_time}}</td>
+                <td>{{each.cycling_time}}</td>
+                <td>{{each.w_cycling_time}}</td>
+            </tr>
             {% endif %}
+            {% endfor %}
+
+            {% for each in result_list %}
+            {% if each.serve_time > 4  and each.serve_time < 9 %}
+            <tr class="table-warning">
+                <td>{{each.name}}</td>
+                <td>{{each.quantity}}</td>
+                <td>{{each.table}}</td>
+                <td><a type="button" class="btn btn-danger" href="/prepare/{{each.id}}">{{each.status}}</a></td>
+                <td>{{each.arrive_time}}</td>
+                <td>{{each.serve_time}}</td>
+                <td>{{each.finish_time}}</td>
+                <td>{{each.cycling_time}}</td>
+                <td>{{each.w_cycling_time}}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+
+            {% for each in result_list %}
+            {% if each.serve_time > 8 %}
+            <tr class="table-danger">
+                <td>{{each.name}}</td>
+                <td>{{each.quantity}}</td>
+                <td>{{each.table}}</td>
+                <td><a type="button" class="btn btn-danger" href="/prepare/{{each.id}}">{{each.status}}</a></td>
+                <td>{{each.arrive_time}}</td>
+                <td>{{each.serve_time}}</td>
+                <td>{{each.finish_time}}</td>
+                <td>{{each.cycling_time}}</td>
+                <td>{{each.w_cycling_time}}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
         </div>
     </body>
 </html>
+
 {% endblock %}

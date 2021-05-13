@@ -10,9 +10,6 @@ from django.db.models import Sum
 from django.views.generic import DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-process_list = []
-result_list = []
-
 
 def index(request):
     category = Category.objects.all()
@@ -48,6 +45,10 @@ def order(request):
     return render(request, "main/order.html", context)
 
 
+process_list = []
+result_list = []
+
+
 @user_passes_test(lambda u: u.is_staff, login_url='login')
 def orders(request, pk):
     table = Table.objects.filter(id=pk).first()
@@ -58,30 +59,9 @@ def orders(request, pk):
             order = form.save(commit=False)
             order.table = table
             order.save()
-            new_process_name = order.item
-            new_process_at = 1
-            new_process_st = order.item.time
-
-            new_process = Process(new_process_name, new_process_at, new_process_st)
-            if new_process_name is not None:
-                process_list.append(new_process)
-        return redirect('/result-page')
-    result_list.clear()
+        return redirect('/order')
 
     return render(request, 'main/orders.html', {'formset': formset, 'table': table})
-
-
-@permission_required('is_superuser', raise_exception=True)
-def allorders(request):
-    high = Order.objects.all().filter(item__time__range=(0, 4)).exclude(status="prepared")
-    medium = Order.objects.all().filter(item__time__range=(5, 8)).exclude(status="prepared")
-    low = Order.objects.all().filter(item__time__range=(9, 13)).exclude(status="prepared")
-    context = {
-        'high': high,
-        'medium': medium,
-        'low': low,
-    }
-    return render(request, 'main/allorder.html', context)
 
 
 @permission_required('is_superuser', raise_exception=True)
@@ -113,7 +93,7 @@ def prepare(request, pk):
         else:
             order.status = "prepared"
         order.save()
-        return redirect('/allorders')
+        return redirect('/result-page')
 
     return render(request, 'main/prepare.html', {'order': order})
 
@@ -169,6 +149,7 @@ def delete(request, pk):
 
     return render(request, 'main/delete.html', {'order': order})
 
+
 @login_required(login_url='login')
 def add_to_cart(request, pk):
     item = get_object_or_404(Item, id=pk)
@@ -183,11 +164,11 @@ def add_to_cart(request, pk):
 
 @login_required
 def get_cart_items(request):
-    cart_items = CartItems.objects.filter(user=request.user,ordered=False)
+    cart_items = CartItems.objects.filter(user=request.user, ordered=False)
     bill = cart_items.aggregate(Sum('item__price'))
     total = bill.get("item__price__sum")
     context = {
-        'cart_items':cart_items,
+        'cart_items': cart_items,
         'total': total,
     }
     return render(request, 'main/cart.html', context)
@@ -206,24 +187,24 @@ class CartDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 @login_required
 def order_item(request):
-    cart_items = CartItems.objects.filter(user=request.user,ordered=False)
-    ordered_date=timezone.now()
-    cart_items.update(ordered=True,ordered_date=ordered_date)
+    cart_items = CartItems.objects.filter(user=request.user, ordered=False)
+    ordered_date = timezone.now()
+    cart_items.update(ordered=True, ordered_date=ordered_date)
     messages.info(request, "Item Ordered")
     return redirect("main:order_details")
 
 
 @login_required
 def order_details(request):
-    items = CartItems.objects.filter(user=request.user, ordered=True,status="Active").order_by('-ordered_date')
-    cart_items = CartItems.objects.filter(user=request.user, ordered=True,status="Delivered").order_by('-ordered_date')
+    items = CartItems.objects.filter(user=request.user, ordered=True, status="Active").order_by('-ordered_date')
+    cart_items = CartItems.objects.filter(user=request.user, ordered=True, status="Delivered").order_by('-ordered_date')
     bill = items.aggregate(Sum('item__price'))
     number = items.aggregate(Sum('quantity'))
     total = bill.get("item__price__sum")
     count = number.get("quantity__sum")
     context = {
-        'items':items,
-        'cart_items':cart_items,
+        'items': items,
+        'cart_items': cart_items,
         'total': total,
         'count': count,
     }
@@ -231,7 +212,7 @@ def order_details(request):
 
 
 class Process:
-    def __init__(self, name, arrive_time, serve_time):
+    def __init__(self, name, arrive_time, serve_time, id, table, quantity, status):
         self.name = name
         self.arrive_time = arrive_time
         self.serve_time = serve_time
@@ -239,9 +220,42 @@ class Process:
         self.finish_time = 0
         self.cycling_time = 0
         self.w_cycling_time = 0
+        self.id = id
+        self.table = table
+        self.quantity = quantity
+        self.status = status
 
 
+# @permission_required('is_superuser', raise_exception=True)
+# def allorders(request):
+#     high = Order.objects.all().filter(item__time__range=(0, 4)).exclude(status="prepared")
+#     medium = Order.objects.all().filter(item__time__range=(5, 8)).exclude(status="prepared")
+#     low = Order.objects.all().filter(item__time__range=(9, 13)).exclude(status="prepared")
+#     context = {
+#         'high': high,
+#         'medium': medium,
+#         'low': low,
+#     }
+#     return render(request, 'main/allorder.html', context)
+
+
+@permission_required('is_superuser', raise_exception=True)
 def schedule_queue(request):
+    result_list.clear()
+    orders = Order.objects.all().exclude(status="prepared")
+    for each in orders:
+        new_process_name = each.item
+        new_process_at = 0
+        new_process_st = each.item.time
+        table = each.table
+        quantity = each.quantity
+        status = each.status
+        id = each.id
+
+        new_process = Process(new_process_name, new_process_at, new_process_st, id, table, quantity, status)
+        if new_process_name is not None:
+            process_list.append(new_process)
+
     process_list0, process_list1, process_list2 = [], [], []
     for each in process_list:
         if each.serve_time <= 4:
@@ -259,7 +273,7 @@ def schedule_queue(request):
     queue_list.append(queue1)
     queue_list.append(queue2)
 
-    mfq = Mulitlevelfeedbackqueue(queue_list, 2)
+    mfq = Mulitlevelfeedbackqueue(queue_list, 8)
     mfq.scheduling()
 
     context = {
